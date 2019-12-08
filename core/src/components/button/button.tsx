@@ -113,6 +113,11 @@ export class Button implements ComponentInterface, AnchorInterface, ButtonInterf
   @Prop() type: 'submit' | 'reset' | 'button' = 'button';
 
   /**
+   * Specifies form the button belongs to.
+   */
+  @Prop() form: string | undefined;
+
+  /**
    * Emitted when the button has focus.
    */
   @Event() ionFocus!: EventEmitter<void>;
@@ -151,7 +156,8 @@ export class Button implements ComponentInterface, AnchorInterface, ButtonInterf
       // this button wants to specifically submit a form
       // climb up the dom to see if we're in a <form>
       // and if so, then use JS to submit it
-      const form = this.el.closest('form');
+      const form = typeof this.form === 'string' ? document.getElementById(this.form) : this.el.closest('form');
+
       if (form) {
         ev.preventDefault();
 

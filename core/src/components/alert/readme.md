@@ -1119,8 +1119,8 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [ion-ripple-effect](../ripple-effect)
-- [ion-backdrop](../backdrop)
+- [ion-ripple-effect](..\ripple-effect)
+- [ion-backdrop](..\backdrop)
 
 ### Graph
 ```mermaid

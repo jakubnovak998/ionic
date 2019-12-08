@@ -192,7 +192,7 @@ export const TabButtonExample: React.FC = () => (
 
 ### Depends on
 
-- [ion-ripple-effect](../ripple-effect)
+- [ion-ripple-effect](..\ripple-effect)
 
 ### Graph
 ```mermaid
