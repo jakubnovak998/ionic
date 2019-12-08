@@ -46,7 +46,7 @@ action for the item.
 
 ### Depends on
 
-- [ion-ripple-effect](../ripple-effect)
+- [ion-ripple-effect](..\ripple-effect)
 
 ### Graph
 ```mermaid

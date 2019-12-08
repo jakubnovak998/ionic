@@ -354,6 +354,10 @@ export namespace Components {
     */
     'fill'?: 'clear' | 'outline' | 'solid' | 'default';
     /**
+    * Specifies form the button belongs to.
+    */
+    'form': string | undefined;
+    /**
     * Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
     */
     'href': string | undefined;
@@ -3815,6 +3819,10 @@ declare namespace LocalJSX {
     * Set to `"clear"` for a transparent button, to `"outline"` for a transparent button with a border, or to `"solid"`. The default style is `"solid"` except inside of a toolbar, where the default is `"clear"`.
     */
     'fill'?: 'clear' | 'outline' | 'solid' | 'default';
+    /**
+    * Specifies form the button belongs to.
+    */
+    'form'?: string | undefined;
     /**
     * Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
     */

@@ -205,7 +205,7 @@ export const CardExample: React.FC = () => (
 
 ### Depends on
 
-- [ion-ripple-effect](../ripple-effect)
+- [ion-ripple-effect](..\ripple-effect)
 
 ### Graph
 ```mermaid
