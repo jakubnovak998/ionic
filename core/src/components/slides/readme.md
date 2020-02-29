@@ -23,7 +23,7 @@ By default, Ionic slides use the built-in `slide` animation effect. Custom anima
 #### Coverflow
 
 ```typescript
-const slidesOpts = {
+const slideOpts = {
   slidesPerView: 3,
   coverflowEffect: {
     rotate: 50,
@@ -116,7 +116,7 @@ const slidesOpts = {
 #### Cube
 
 ```typescript
-const slidesOpts = {
+const slideOpts = {
   grabCursor: true,
   cubeEffect: {
     shadow: true,
@@ -276,7 +276,7 @@ const slidesOpts = {
 #### Fade
 
 ```typescript
-const slidesOpts = {
+const slideOpts = {
   on: {
     beforeInit() {
       const swiper = this;
@@ -614,6 +614,18 @@ Type: `Promise<number>`
 
 
 
+### `getSwiper() => Promise<any>`
+
+Get the Swiper instance.
+Use this to access the full Swiper API.
+See https://idangero.us/swiper/api/ for all API options.
+
+#### Returns
+
+Type: `Promise<any>`
+
+
+
 ### `isBeginning() => Promise<boolean>`
 
 Get whether or not the current slide is the first slide.
@@ -749,10 +761,14 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name                         | Description                                |
-| ---------------------------- | ------------------------------------------ |
-| `--bullet-background`        | Background of the pagination bullets       |
-| `--bullet-background-active` | Background of the active pagination bullet |
+| Name                               | Description                                      |
+| ---------------------------------- | ------------------------------------------------ |
+| `--bullet-background`              | Background of the pagination bullets             |
+| `--bullet-background-active`       | Background of the active pagination bullet       |
+| `--progress-bar-background`        | Background of the pagination progress-bar        |
+| `--progress-bar-background-active` | Background of the active pagination progress-bar |
+| `--scroll-bar-background`          | Background of the pagination scroll-bar          |
+| `--scroll-bar-background-active`   | Background of the active pagination scroll-bar   |
 
 
 ----------------------------------------------

@@ -2,12 +2,6 @@
 
 An overlay that can be used to indicate activity while blocking user interaction. The loading indicator appears on top of the app's content, and can be dismissed by the app to resume user interaction with the app. It includes an optional backdrop, which can be disabled by setting `showBackdrop: false` upon creation.
 
-
-### Creating
-
-Loading indicators can be created using a [Loading Controller](../loading-controller). They can be customized by passing loading options in the loading controller's `create()` method. The spinner name should be passed in the `spinner` property. If a value is not passed to `spinner` the loading indicator will use the spinner specified by the platform.
-
-
 ### Dismissing
 
 The loading indicator can be dismissed automatically after a specific amount of time by passing the number of milliseconds to display it in the `duration` of the loading options. To dismiss the loading indicator after creation, call the `dismiss()` method on the loading instance. The `onDidDismiss` function can be called to perform an action after the loading indicator is dismissed.
@@ -34,13 +28,12 @@ export class LoadingExample {
 
   async presentLoading() {
     const loading = await this.loadingController.create({
-      message: 'Hellooo',
+      message: 'Please wait...',
       duration: 2000
     });
     await loading.present();
-    
+
     const { role, data } = await loading.onDidDismiss();
-    
     console.log('Loading dismissed!');
   }
 
@@ -48,11 +41,15 @@ export class LoadingExample {
     const loading = await this.loadingController.create({
       spinner: null,
       duration: 5000,
-      message: 'Please wait...',
+      message: 'Click the backdrop to dismiss early...',
       translucent: true,
-      cssClass: 'custom-class custom-loading'
+      cssClass: 'custom-class custom-loading',
+      backdropDismiss: true
     });
-    return await loading.present();
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed with role:', role);
   }
 }
 ```
@@ -62,31 +59,32 @@ export class LoadingExample {
 
 ```javascript
 async function presentLoading() {
-  const loadingController = document.querySelector('ion-loading-controller');
+  const loading = document.createElement('ion-loading');
+  loading.message = 'Please wait...';
+  loading.duration = 2000;
 
-  const loading = await loadingController.create({
-    message: 'Hellooo',
-    duration: 2000
-  });
-
+  document.body.appendChild(loading);
   await loading.present();
 
   const { role, data } = await loading.onDidDismiss();
-
   console.log('Loading dismissed!');
 }
 
 async function presentLoadingWithOptions() {
-  const loadingController = document.querySelector('ion-loading-controller');
+  const loading = document.createElement('ion-loading');
 
-  const loading = await loadingController.create({
-    spinner: null,
-    duration: 5000,
-    message: 'Please wait...',
-    translucent: true,
-    cssClass: 'custom-class custom-loading'
-  });
-  return await loading.present();
+  loading.spinner = null;
+  loading.duration = 5000;
+  loading.message = 'Click the backdrop to dismiss early...';
+  loading.translucent = true;
+  loading.cssClass = 'custom-class custom-loading';
+  loading.backdropDismiss = true;
+
+  document.body.appendChild(loading);
+  await loading.present();
+
+  const { role, data } = await loading.onDidDismiss();
+  console.log('Loading dismissed with role:', role);
 }
 ```
 
@@ -110,7 +108,7 @@ export const LoadingExample: React.FC = () => {
       <IonLoading
         isOpen={showLoading}
         onDidDismiss={() => setShowLoading(false)}
-        message={'Loading...'}
+        message={'Please wait...'}
         duration={5000}
       />
     </IonContent>
@@ -139,14 +137,14 @@ export default {
     presentLoading() {
       return this.$ionic.loadingController
         .create({
-          message: 'Loading',
+          message: 'Please wait...',
           duration: this.timeout,
         })
-        .then(l => {
+        .then(loading => {
           setTimeout(function() {
-            l.dismiss()
+            loading.dismiss()
           }, this.timeout)
-          return l.present()
+          return loading.present()
         })
     },
     presentLoadingWithOptions() {
@@ -154,15 +152,16 @@ export default {
         .create({
           spinner: null,
           duration: this.timeout,
-          message: 'Please wait...',
+          message: 'Click the backdrop to dismiss early...',
           translucent: true,
           cssClass: 'custom-class custom-loading',
+          backdropDismiss: true
         })
-        .then(l => {
+        .then(loading=> {
           setTimeout(function() {
-            l.dismiss()
+            loading.dismiss()
           }, this.timeout)
-          return l.present()
+          return loading.present()
         })
     },
   },
@@ -180,9 +179,9 @@ export default {
 | `backdropDismiss` | `backdrop-dismiss` | If `true`, the loading indicator will be dismissed when the backdrop is clicked.                                                                                                                                                 | `boolean`                                                                                                       | `false`     |
 | `cssClass`        | `css-class`        | Additional classes to apply for custom CSS. If multiple classes are provided they should be separated by spaces.                                                                                                                 | `string \| string[] \| undefined`                                                                               | `undefined` |
 | `duration`        | `duration`         | Number of milliseconds to wait before dismissing the loading indicator.                                                                                                                                                          | `number`                                                                                                        | `0`         |
-| `enterAnimation`  | --                 | Animation to use when the loading indicator is presented.                                                                                                                                                                        | `((Animation: Animation, baseEl: any, opts?: any) => Promise<Animation>) \| undefined`                          | `undefined` |
+| `enterAnimation`  | --                 | Animation to use when the loading indicator is presented.                                                                                                                                                                        | `((baseEl: any, opts?: any) => Animation) \| undefined`                                                         | `undefined` |
 | `keyboardClose`   | `keyboard-close`   | If `true`, the keyboard will be automatically dismissed when the overlay is presented.                                                                                                                                           | `boolean`                                                                                                       | `true`      |
-| `leaveAnimation`  | --                 | Animation to use when the loading indicator is dismissed.                                                                                                                                                                        | `((Animation: Animation, baseEl: any, opts?: any) => Promise<Animation>) \| undefined`                          | `undefined` |
+| `leaveAnimation`  | --                 | Animation to use when the loading indicator is dismissed.                                                                                                                                                                        | `((baseEl: any, opts?: any) => Animation) \| undefined`                                                         | `undefined` |
 | `message`         | `message`          | Optional text content to display in the loading indicator.                                                                                                                                                                       | `string \| undefined`                                                                                           | `undefined` |
 | `mode`            | `mode`             | The mode determines which platform styles to use.                                                                                                                                                                                | `"ios" \| "md"`                                                                                                 | `undefined` |
 | `showBackdrop`    | `show-backdrop`    | If `true`, a backdrop will be displayed behind the loading indicator.                                                                                                                                                            | `boolean`                                                                                                       | `true`      |
@@ -245,16 +244,17 @@ Type: `Promise<void>`
 
 ## CSS Custom Properties
 
-| Name              | Description                          |
-| ----------------- | ------------------------------------ |
-| `--background`    | Background of the loading dialog     |
-| `--height`        | Height of the loading dialog         |
-| `--max-height`    | Maximum height of the loading dialog |
-| `--max-width`     | Maximum width of the loading dialog  |
-| `--min-height`    | Minimum height of the loading dialog |
-| `--min-width`     | Minimum width of the loading dialog  |
-| `--spinner-color` | Color of the loading spinner         |
-| `--width`         | Width of the loading dialog          |
+| Name                 | Description                          |
+| -------------------- | ------------------------------------ |
+| `--backdrop-opacity` | Opacity of the backdrop              |
+| `--background`       | Background of the loading dialog     |
+| `--height`           | Height of the loading dialog         |
+| `--max-height`       | Maximum height of the loading dialog |
+| `--max-width`        | Maximum width of the loading dialog  |
+| `--min-height`       | Minimum height of the loading dialog |
+| `--min-width`        | Minimum width of the loading dialog  |
+| `--spinner-color`    | Color of the loading spinner         |
+| `--width`            | Width of the loading dialog          |
 
 
 ## Dependencies

@@ -2,7 +2,7 @@ import { Component, ComponentInterface, Element, Event, EventEmitter, Host, Meth
 
 import { getIonMode } from '../../global/ionic-global';
 import { ActionSheetButton, AnimationBuilder, CssClassMap, OverlayEventDetail, OverlayInterface } from '../../interface';
-import { BACKDROP, dismiss, eventMethod, isCancel, present, safeCall } from '../../utils/overlays';
+import { BACKDROP, dismiss, eventMethod, isCancel, prepareOverlay, present, safeCall } from '../../utils/overlays';
 import { getClassMap } from '../../utils/theme';
 
 import { iosEnterAnimation } from './animations/ios.enter';
@@ -27,7 +27,7 @@ export class ActionSheet implements ComponentInterface, OverlayInterface {
   animation?: any;
   mode = getIonMode(this);
 
-  @Element() el!: HTMLElement;
+  @Element() el!: HTMLIonActionSheetElement;
 
   /** @internal */
   @Prop() overlayIndex!: number;
@@ -111,6 +111,10 @@ export class ActionSheet implements ComponentInterface, OverlayInterface {
   @Method()
   present(): Promise<void> {
     return present(this, 'actionSheetEnter', iosEnterAnimation, mdEnterAnimation);
+  }
+
+  constructor() {
+    prepareOverlay(this.el);
   }
 
   /**
@@ -222,7 +226,7 @@ export class ActionSheet implements ComponentInterface, OverlayInterface {
                 </div>
               }
               {buttons.map(b =>
-                <button type="button" ion-activatable class={buttonClass(b)} onClick={() => this.buttonClick(b)}>
+                <button type="button" class={buttonClass(b)} onClick={() => this.buttonClick(b)}>
                   <span class="action-sheet-button-inner">
                     {b.icon && <ion-icon icon={b.icon} lazy={false} class="action-sheet-icon" />}
                     {b.text}
@@ -248,6 +252,7 @@ export class ActionSheet implements ComponentInterface, OverlayInterface {
                       />}
                     {cancelButton.text}
                   </span>
+                  {mode === 'md' && <ion-ripple-effect></ion-ripple-effect>}
                 </button>
               </div>
             }
@@ -262,6 +267,7 @@ const buttonClass = (button: ActionSheetButton): CssClassMap => {
   return {
     'action-sheet-button': true,
     'ion-activatable': true,
+    'ion-focusable': true,
     [`action-sheet-${button.role}`]: button.role !== undefined,
     ...getClassMap(button.cssClass),
   };

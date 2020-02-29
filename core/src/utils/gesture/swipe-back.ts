@@ -1,3 +1,5 @@
+import { clamp } from '../helpers';
+
 import { Gesture, GestureDetail, createGesture } from './index';
 
 export const createSwipeBackGesture = (
@@ -37,7 +39,12 @@ export const createSwipeBackGesture = (
       realDur = Math.min(dur, 540);
     }
 
-    onEndHandler(shouldComplete, stepValue, realDur);
+    /**
+     * TODO: stepValue can sometimes return negative values
+     * or values greater than 1 which should not be possible.
+     * Need to investigate more to find where the issue is.
+     */
+    onEndHandler(shouldComplete, (stepValue <= 0) ? 0.01 : clamp(0, stepValue, 0.9999), realDur);
   };
 
   return createGesture({

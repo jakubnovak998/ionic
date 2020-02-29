@@ -70,7 +70,7 @@ export class StackController {
     if (router.getCurrentNavigation) {
       currentNavigation = router.getCurrentNavigation();
 
-    // Angular < 7.2.0
+      // Angular < 7.2.0
     } else if (
       router.navigations &&
       router.navigations.value
@@ -191,6 +191,14 @@ export class StackController {
     return views.length > 0 ? views[views.length - 1] : undefined;
   }
 
+  /**
+   * @internal
+   */
+  getRootUrl(stackId?: string) {
+    const views = this.getStack(stackId);
+    return views.length > 0 ? views[0] : undefined;
+  }
+
   getActiveStackId(): string | undefined {
     return this.activeView ? this.activeView.stackId : undefined;
   }
@@ -230,7 +238,8 @@ export class StackController {
     const leavingEl = leavingView ? leavingView.element : undefined;
     const containerEl = this.containerEl;
     if (enteringEl && enteringEl !== leavingEl) {
-      enteringEl.classList.add('ion-page', 'ion-page-invisible');
+      enteringEl.classList.add('ion-page');
+      enteringEl.classList.add('ion-page-invisible');
       if (enteringEl.parentElement !== containerEl) {
         containerEl.appendChild(enteringEl);
       }

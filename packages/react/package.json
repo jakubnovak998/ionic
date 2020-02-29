@@ -1,6 +1,6 @@
 {
   "name": "@ionic/react",
-  "version": "4.8.0-rc.1",
+  "version": "5.0.4",
   "description": "React specific wrapper for @ionic/core",
   "keywords": [
     "ionic",
@@ -28,6 +28,7 @@
     "lint.fix": "tslint --project . --fix",
     "tsc": "tsc -p .",
     "copy": "node scripts/copy.js",
+    "test.spec": "jest --ci",
     "test.treeshake": "node scripts/treeshaking.js dist/index.esm.js"
   },
   "main": "dist/index.js",
@@ -38,7 +39,8 @@
     "css/"
   ],
   "dependencies": {
-    "@ionic/core": "4.8.0",
+    "@ionic/core": "5.0.4",
+    "ionicons": "^5.0.0",
     "tslib": "*"
   },
   "peerDependencies": {
@@ -47,9 +49,9 @@
   },
   "devDependencies": {
     "@types/jest": "^23.3.9",
-    "@types/node": "10.12.9",
-    "@types/react": "^16.9.1",
-    "@types/react-dom": "^16.8.5",
+    "@types/node": "^12.12.14",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
     "fs-extra": "^8.1.0",
     "jest": "^24.8.0",
     "jest-dom": "^3.4.0",
@@ -65,7 +67,7 @@
     "tslint": "^5.18.0",
     "tslint-ionic-rules": "0.0.21",
     "tslint-react": "^4.0.0",
-    "typescript": "3.5.3"
+    "typescript": "^3.7.2"
   },
   "jest": {
     "preset": "ts-jest",

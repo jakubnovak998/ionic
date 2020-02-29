@@ -1,9 +1,9 @@
 import { Component, ComponentInterface, Element, Event, EventEmitter, Host, Method, Prop, h } from '@stencil/core';
 
 import { getIonMode } from '../../global/ionic-global';
-import { Animation, AnimationBuilder, ComponentProps, ComponentRef, FrameworkDelegate, OverlayEventDetail, OverlayInterface } from '../../interface';
+import { AnimationBuilder, ComponentProps, ComponentRef, FrameworkDelegate, OverlayEventDetail, OverlayInterface } from '../../interface';
 import { attachComponent, detachComponent } from '../../utils/framework-delegate';
-import { BACKDROP, dismiss, eventMethod, present } from '../../utils/overlays';
+import { BACKDROP, dismiss, eventMethod, prepareOverlay, present } from '../../utils/overlays';
 import { getClassMap } from '../../utils/theme';
 import { deepReady } from '../../utils/transition';
 
@@ -28,10 +28,9 @@ export class Popover implements ComponentInterface, OverlayInterface {
   private usersElement?: HTMLElement;
 
   presented = false;
-  animation?: Animation;
   mode = getIonMode(this);
 
-  @Element() el!: HTMLElement;
+  @Element() el!: HTMLIonPopoverElement;
 
   /** @internal */
   @Prop() delegate?: FrameworkDelegate;
@@ -116,6 +115,10 @@ export class Popover implements ComponentInterface, OverlayInterface {
    * Emitted after the popover has dismissed.
    */
   @Event({ eventName: 'ionPopoverDidDismiss' }) didDismiss!: EventEmitter<OverlayEventDetail>;
+
+  constructor() {
+    prepareOverlay(this.el);
+  }
 
   /**
    * Present the popover overlay after it has been created.

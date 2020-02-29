@@ -14,10 +14,10 @@
   <script type="module">
     const forceCSSAnimations = new URLSearchParams(window.location.search).get('ionic:_forceCSSAnimations');
     if (forceCSSAnimations) {
-      window.Animation = null;
+      Element.prototype.animate = null;
     }
     
-    import { createAnimation } from '../../../../dist/index.mjs';
+    import { createAnimation } from '../../../../dist/ionic/index.esm.js';
     
     const squareA = document.querySelector('.square-a');
     const squareBText = document.querySelectorAll('.square-b .text');

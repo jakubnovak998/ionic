@@ -12,6 +12,13 @@ export class ValueAccessor implements ControlValueAccessor {
   constructor(protected el: ElementRef) {}
 
   writeValue(value: any) {
+    /**
+     * TODO for Ionic 6:
+     * Change `value == null ? '' : value;`
+     * to `value`. This was a fix for IE9, but IE9
+     * is no longer supported; however, this change
+     * is potentially a breaking change
+     */
     this.el.nativeElement.value = this.lastValue = value == null ? '' : value;
     setIonicClasses(this.el);
   }
@@ -74,16 +81,16 @@ const getClasses = (element: HTMLElement) => {
 
 const setClasses = (element: HTMLElement, classes: string[]) => {
   const classList = element.classList;
-
-  classList.remove(
+  [
     'ion-valid',
     'ion-invalid',
     'ion-touched',
     'ion-untouched',
     'ion-dirty',
     'ion-pristine'
-  );
-  classList.add(...classes);
+  ].forEach(c => classList.remove(c));
+
+  classes.forEach(c => classList.add(c));
 };
 
 const startsWith = (input: string, search: string): boolean => {
